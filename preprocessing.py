@@ -1,9 +1,19 @@
 import os
 import music21 as m21
+import json
 
 # globals
-DATASET_PATH = "dataset/deutschl/test"
-SAVE_PATH = "preprocessed/deutschl/test"
+# ex : "dataset/deutschl/test"
+DATASET_DIR = "dataset/deutschl/test"
+
+# ex : "preprocessed/encode/deutschl/test"
+ENCODED_SAVE_DIR = "preprocessed/encode/deutschl/test"
+
+# ex : "preprocessed/single_string/deutschl/test"
+SINGLE_STRING_DIR = "preprocessed/single_string/deutschl/test"
+
+# ex :  "preprocessed/mapping/deutschl/test"
+MAPPER_DIR = "preprocessed/mapping/deutschl/test"
 
 ACCEPTABLE_DURATIONS = [
     0.25,  # sixteenth note
@@ -15,6 +25,7 @@ ACCEPTABLE_DURATIONS = [
     3,
     4.0,  # whole note
 ]
+SEQUENCE_LENGTH = 64
 
 
 def load_songs(path):
@@ -113,12 +124,12 @@ def save_song(song, path):
         f.write(song)
 
 
-def dataset_preprocessing():
+def dataset_preprocessing(dataset_path, save_path):
     """
     Preprocesses the dataset.
     """
     # load dataset
-    songs = load_songs(DATASET_PATH)
+    songs = load_songs(dataset_path)
 
     for i, song in enumerate(songs):
         # filter using acceptance criteria
@@ -131,22 +142,85 @@ def dataset_preprocessing():
         # endcode song
         encoded_song = encode_song(song)
 
-        # write to file
+        # check directory exists if not create
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
 
-        save_song(encoded_song, SAVE_PATH + "/" + str(i) + ".txt")
+        # write to file
+        save_song(encoded_song, save_path + "/" + str(i) + ".txt")
+
+
+def create_single_string(dataset_path, save_path, sequence_length):
+    """
+    Creates a single string from the song.
+    """
+    delimiter = "/ "*sequence_length
+    songs = ""
+
+    # load songs
+    for file in os.listdir(dataset_path):
+        with open(dataset_path + "/" + file, "r") as f:
+            song = f.read()
+            # add to string with seperating delimiter
+            songs += song + " " + delimiter
+
+    # remove last delimiter
+    songs = songs[:-1]
+
+    # check directory exists if not create
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+
+    # save to file
+    with open(save_path + '/single-string.txt', "w") as f:
+        f.write(songs)
+
+    return songs  # return the single string
+
+
+def mapping(songs, save_path):
+    """
+    Creates a mapping file from the single string.
+    """
+
+    songs = songs.split()
+
+    vocalbulary = list(set(songs))
+
+    # create mapping
+    mapping = {}
+    for i, symbol in enumerate(vocalbulary):
+        mapping[symbol] = i
+
+    # check directory exists if not create
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+
+    # save to file
+    with open(save_path + '/mapping.json', "w") as fp:
+        json.dump(mapping, fp, indent=4)
+
+
+def main():
+    """
+    Main function.
+    """
+    dataset_preprocessing(DATASET_DIR, ENCODED_SAVE_DIR)
+    print("Preprocessing done.")
+    songs = create_single_string(
+        ENCODED_SAVE_DIR, SINGLE_STRING_DIR, SEQUENCE_LENGTH)
+    print("Single string created.")
+    mapping(songs, MAPPER_DIR)
+    print("Mapping created.")
 
 
 if __name__ == "__main__":
-
-    # test
-
-    # songs = load_songs(DATASET_PATH)
-    # print(len(songs))
-
-    # transposed_song = transpose_song(songs[0])
-    # print(transposed_song.analyze('key'))
-    # songs[0].show()
-
-    if not os.path.exists(SAVE_PATH):
-        os.makedirs(SAVE_PATH)
-    dataset_preprocessing()
+    main()
+    print("Done.")
+    print("Please check the files:")
+    # print("DATASET_DIR: " + DATASET_DIR + '')
+    print("ENCODED_SAVE_DIR: " + ENCODED_SAVE_DIR)
+    print("SINGLE_STRING_DIR: " + SINGLE_STRING_DIR + '/single-string.txt')
+    print("MAPPER_DIR: " + MAPPER_DIR + '/mapping.json')
+    print("Thank you.Bye.")
+    exit()
