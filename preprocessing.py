@@ -1,5 +1,8 @@
 import os
 import music21 as m21
+import numpy as np
+from tensorflow import keras
+import tensorflow as tf
 import json
 
 # globals
@@ -201,6 +204,53 @@ def mapping(songs, save_path):
         json.dump(mapping, fp, indent=4)
 
 
+def get_integer_song(songs, mapping_path):
+    """
+    Converts the single string to integer song.
+    """
+
+    # load mapping
+    with open(mapping_path + '/mapping.json', "r") as f:
+        mapping = json.load(f)
+
+    # convert to integer
+    integer_songs = []
+    for song in songs.split():
+        integer_songs.append(mapping[song])
+
+    return integer_songs
+
+
+def generate_training_data(dataset_path, mapping_path, sequence_length):
+    """
+    Generates training data from the dataset.
+    """
+
+    # load songs
+    with open(dataset_path + '/single-string.txt', "r") as f:
+        songs = f.read()
+
+    # get integer songs
+    integer_songs = get_integer_song(songs, mapping_path)
+
+    # get traning data
+    training_data = []  # [[1,2,3],[2,3,4]]
+    target_data = []   # [4,5] # target data is the next note
+    # size of the array change due to sequence length
+
+    for i in range(len(integer_songs)-sequence_length):
+        training_data.append(integer_songs[i:i+sequence_length])
+        target_data.append(integer_songs[i+sequence_length])
+
+    # one hot encoding
+    vocabulary_size = len(set(integer_songs))
+    inputs = keras.utils.to_categorical(
+        training_data, num_classes=vocabulary_size)
+    targets = np.array(target_data)
+
+    return inputs, targets
+
+
 def main():
     """
     Main function.
@@ -212,6 +262,15 @@ def main():
     print("Single string created.")
     mapping(songs, MAPPER_DIR)
     print("Mapping created.")
+    inputs, targets = generate_training_data(
+        SINGLE_STRING_DIR, MAPPER_DIR, SEQUENCE_LENGTH)
+    print("Training data generated.")
+    # np.save(TRAINING_DATA_DIR + '/inputs.npy', inputs)
+
+    print("target rank: {} , target shape: {}".format(
+        tf.rank(targets), tf.shape(targets)))
+    print("input rank: {} , input shape: {}".format(
+        tf.rank(inputs), tf.shape(inputs)))
 
 
 if __name__ == "__main__":
