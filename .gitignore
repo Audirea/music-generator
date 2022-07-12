@@ -3,3 +3,4 @@
 venv
 dataset
 preprocessed/encode
+__pycache__
