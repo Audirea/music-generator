@@ -7,16 +7,16 @@ import json
 
 # globals
 # ex : "dataset/deutschl/test"
-DATASET_DIR = "dataset/deutschl/test"
+DATASET_DIR = "dataset/deutschl/erk"
 
 # ex : "preprocessed/encode/deutschl/test"
-ENCODED_SAVE_DIR = "preprocessed/encode/deutschl/test"
+ENCODED_SAVE_DIR = "preprocessed/encode/deutschl/erk"
 
 # ex : "preprocessed/single_string/deutschl/test"
-SINGLE_STRING_DIR = "preprocessed/single_string/deutschl/test"
+SINGLE_STRING_DIR = "preprocessed/single_string/deutschl/erk"
 
 # ex :  "preprocessed/mapping/deutschl/test"
-MAPPER_DIR = "preprocessed/mapping/deutschl/test"
+MAPPER_DIR = "preprocessed/mapping/deutschl/erk"
 
 ACCEPTABLE_DURATIONS = [
     0.25,  # sixteenth note

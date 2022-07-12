@@ -2,4 +2,4 @@
 .vscode
 venv
 dataset
-preprocessed
+preprocessed/encode
