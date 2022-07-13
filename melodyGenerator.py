@@ -86,7 +86,7 @@ class MelodyGenerator:
 
         return melody
 
-    def save_melody_2(self, melody, step_duration=0.25, format='midi', file_name='melody.mid'):
+    def save_melody(self, melody, step_duration=0.25, format='midi', file_name='melody.mid'):
         """
         save melody
         """
@@ -123,55 +123,6 @@ class MelodyGenerator:
 
         stream.write(format, file_name)
 
-    # def save_melody(self, melody, step_duration=0.25, format="midi", file_name="mel.mid"):
-    #     """Converts a melody into a MIDI file
-    #     :param melody (list of str):
-    #     :param min_duration (float): Duration of each time step in quarter length
-    #     :param file_name (str): Name of midi file
-    #     :return:
-    #     """
-
-    #     # create a music21 stream
-    #     stream = m21.stream.Stream()
-
-    #     start_symbol = None
-    #     step_counter = 1
-
-    #     # parse all the symbols in the melody and create note/rest objects
-    #     for i, symbol in enumerate(melody):
-
-    #         # handle case in which we have a note/rest
-    #         if symbol != "_" or i + 1 == len(melody):
-
-    #             # ensure we're dealing with note/rest beyond the first one
-    #             if start_symbol is not None:
-
-    #                 quarter_length_duration = step_duration * step_counter  # 0.25 * 4 = 1
-
-    #                 # handle rest
-    #                 if start_symbol == "r":
-    #                     m21_event = m21.note.Rest(
-    #                         quarterLength=quarter_length_duration)
-
-    #                 # handle note
-    #                 else:
-    #                     m21_event = m21.note.Note(
-    #                         int(start_symbol), quarterLength=quarter_length_duration)
-
-    #                 stream.append(m21_event)
-
-    #                 # reset the step counter
-    #                 step_counter = 1
-
-    #             start_symbol = symbol
-
-    #         # handle case in which we have a prolongation sign "_"
-    #         else:
-    #             step_counter += 1
-
-    #     # write the m21 stream to a midi file
-    #     stream.write(format, file_name)
-
 
 if __name__ == "__main__":
     mg = MelodyGenerator()
@@ -183,4 +134,4 @@ if __name__ == "__main__":
         temperature=0.5
     )
     print(melody)
-    mg.save_melody_2(melody)
+    mg.save_melody(melody)
