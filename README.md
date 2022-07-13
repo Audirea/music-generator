@@ -15,3 +15,6 @@
 #
 [Melody 2](https://github.com/Audirea/music-generator/blob/main/audio_samples/melody3.mp3)
 
+### Finally, huge thanks for Valerio Velardo. His youtube channel shows lot of music and AI related from stuffs.   
+### Check his youtube channel.
+[Valerio Velardo - The Sound of AI](https://www.youtube.com/c/ValerioVelardoTheSoundofAI)
