@@ -20,7 +20,7 @@
 #
 ![alt text](https://github.com/Audirea/music-generator/blob/main/images/m3.png)
 #
-[Melody 2](https://github.com/Audirea/music-generator/blob/main/audio_samples/melody3.mp3)
+[Melody 3](https://github.com/Audirea/music-generator/blob/main/audio_samples/melody3.mp3)
 
 ### Finally, huge thanks for Valerio Velardo. His youtube channel present lot of Music & AI related stuffs.   
 ### Check his youtube channel.
