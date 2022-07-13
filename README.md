@@ -7,6 +7,7 @@
 #### you can download datasets from [ESAC dataset](http://www.esac-data.org/)
 #### set the paths in **preprocessing.py**
 #### You can train your model on different dataset try to change the varibles in **modelGenerator.py**
+#### Trained music-generator/models/deutschl/deutschl_erk.h5 model is not good. (1 epoch due to less computational power :worried:)
 
 ## Samples 
 ![alt text](https://github.com/Audirea/music-generator/blob/main/images/m1.png)
