@@ -1,6 +1,12 @@
-# music-generator
+# Music Generator 
 
 ##  🔥🔥🔥NOCTUS CODER🔥🔥🔥
+
+## Dataset 
+#### using krn datafiles 
+#### you can download datasets from [ESAC dataset](http://www.esac-data.org/)
+#### set the paths in **preprocessing.py**
+#### You can train your model on different dataset try to change the varibles in **modelGenerator.py**
 
 ## Samples 
 ![alt text](https://github.com/Audirea/music-generator/blob/main/images/m1.png)
